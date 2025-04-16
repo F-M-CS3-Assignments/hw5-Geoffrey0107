@@ -1,15 +1,9 @@
-
 #include "Graph.h"
 #include <iostream>
 #include <vector>
 
 
 using namespace std;
-
-
-
-
-
 
 // This method is not part of the Graph class / header on purpose
 const GraphEdge* findExistingEdge(nodekey_t gnFrom, nodekey_t gnTo, vector<vector<GraphEdge *>> adjList)
@@ -71,7 +65,6 @@ void Graph::AddNode(nodekey_t key)
 
 const GraphEdge *Graph::AddEdge(nodekey_t gnFrom, nodekey_t gnTo, unsigned int w)
 {
-
 	// The AddEdge method creates new edges.  It does not and should not update / change
 	// the weights of existing edges.  findExistingEdge does not check the weight for this reason
 	const GraphEdge* dup = findExistingEdge(gnFrom, gnTo, this->adjList);
@@ -92,8 +85,16 @@ const GraphEdge *Graph::AddEdge(nodekey_t gnFrom, nodekey_t gnTo, unsigned int w
 
 	GraphEdge *ge = new GraphEdge;
 
-	// TODO:
-	// Do stuff here?  IDK what though
+	ge->from = gnFrom;
+	ge->to = gnTo;
+	ge->weight = w;
+
+	for (size_t i = 0; i < nodes.size(); i++) {
+		if (nodes.at(i) == gnFrom) {
+			adjList.at(i).push_back(ge);
+		}
+	}
+	
 
 	const GraphEdge *response = ge; // this helps the compiler go
 	return response;
@@ -104,9 +105,13 @@ bool Graph::IsPresent(nodekey_t key) const
 {
 	// TODO:
 	// iterate through this->nodes and look for one that matches key
+	for (size_t i; i < nodes.size(); i++){
+		if(nodes[i] == key){
+			return true;
+		}
+	}
+	return false;
 }
-
-
 
 
 set<const GraphEdge*> Graph::GetOutwardEdgesFrom(nodekey_t node) const 
@@ -120,14 +125,16 @@ set<const GraphEdge*> Graph::GetOutwardEdgesFrom(nodekey_t node) const
 		throw invalid_argument("No such node: " + to_string(node));
 	}
 
-
-
 	set<const GraphEdge*> result = set<const GraphEdge*>();
 	// TODO:
 	// iterate over this->adjList.at(idx); and find nodes that match the given node
 	// in their "from" field, put those nodes in result
-
-
+	for(size_t i; i < adjList.at(idx).size(); i++){
+		GraphEdge* edge = adjList.at(idx).at(i);
+		if(edge->from == node){
+			result.insert(edge);
+		}
+	}
 	return result;
 }
 
@@ -135,6 +142,11 @@ set<const GraphEdge*> Graph::GetOutwardEdgesFrom(nodekey_t node) const
 {
 	// TODOL
 	// iterate of this->nodes, accumulate into a set<nodekey_t> and return it
+	set<nodekey_t> results = set<nodekey_t>();
+	for(size_t i; i < this->nodes.size(); i++){
+		results.insert(this->nodes.at(i));
+	}
+	return results;
 }
 
 
@@ -210,5 +222,10 @@ Graph::~Graph() {
 	// TODO:
 	// Right now the memory leaks are bad, I need to
 	// implement something here to fix it
+	for(size_t i = 0; i < adjList.size(); i++){
+		for(size_t j = 0; j < adjList[i].size(); j++){
+			delete adjList[i][j];
+		}
+	}
 }
 

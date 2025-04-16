@@ -29,8 +29,8 @@ struct GraphEdge {
 class Graph{
 	
 	public:
-		//Graph(); // you may add this, it is ungraded
-		//Graph(const Graph&); // you may add this, it is ungraded
+		Graph(); // you may add this, it is ungraded
+		Graph(const Graph&); // you may add this, it is ungraded
 		~Graph();
 
 
@@ -57,8 +57,9 @@ class Graph{
 	
 	
 	private:
-		// TODO:
-		// put your code here!
+		vector<nodekey_t> nodes;
+		vector<vector<GraphEdge*> > adjList;
+	
 	
 };
 
