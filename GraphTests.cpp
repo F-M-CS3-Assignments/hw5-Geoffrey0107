@@ -42,13 +42,11 @@ void TestAddEdge(){
 	g.AddNode(15);
 	g.AddNode(12);
 	g.AddNode(9);
-	// cout << "nodes: " << g.NodesToString() << endl;
+	cout << "nodes: " << g.NodesToString() << endl;
 	assert(g.NodesToString() == "[(15), (12), (9)]");
-
-	
 	const GraphEdge *ge1 = g.AddEdge(15, 9, 2);
 	assert(g.NodesToString() == "[(15), (12), (9)]");
-	//cout << "edges:" <<  g.EdgesToString() << endl;
+	cout << "edges:" <<  g.EdgesToString() << endl;
 	assert(g.EdgesToString() == "[((15)->(9) w:2)]");
 	assert(ge1->from == 15);
 	assert(ge1->to == 9);
@@ -124,6 +122,11 @@ void TestGetOutwardEdgesFrom(){
 
 
 	// more tests go here!
+	set<const GraphEdge*> empty = g.GetOutwardEdgesFrom(34);
+	assert(empty.size() == 0);
+
+	set<const GraphEdge*> solo = g.GetOutwardEdgesFrom(22);
+	assert(solo.size() == 2);
 	
 	
 	cout << "PASSED!" << endl << endl;

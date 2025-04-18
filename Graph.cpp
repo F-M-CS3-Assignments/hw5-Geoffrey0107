@@ -4,7 +4,6 @@
 
 
 using namespace std;
-
 // This method is not part of the Graph class / header on purpose
 const GraphEdge* findExistingEdge(nodekey_t gnFrom, nodekey_t gnTo, vector<vector<GraphEdge *>> adjList)
 {
@@ -55,9 +54,7 @@ void Graph::AddNode(nodekey_t key)
 
 
 	nodes.push_back(key);
-	vector <GraphEdge*> *newRow = new vector<GraphEdge*>;
-	adjList.push_back(*newRow);
-	delete newRow; // ?
+	adjList.push_back(vector<GraphEdge*>());
 }
 
 
@@ -105,7 +102,8 @@ bool Graph::IsPresent(nodekey_t key) const
 {
 	// TODO:
 	// iterate through this->nodes and look for one that matches key
-	for (size_t i; i < nodes.size(); i++){
+	for (size_t i = 0; i < nodes.size(); i++){
+		cout << "Checking node: " << key << " against " << nodes[i] << endl;
 		if(nodes[i] == key){
 			return true;
 		}
@@ -129,7 +127,7 @@ set<const GraphEdge*> Graph::GetOutwardEdgesFrom(nodekey_t node) const
 	// TODO:
 	// iterate over this->adjList.at(idx); and find nodes that match the given node
 	// in their "from" field, put those nodes in result
-	for(size_t i; i < adjList.at(idx).size(); i++){
+	for(size_t i = 0; i < adjList.at(idx).size(); i++){
 		GraphEdge* edge = adjList.at(idx).at(i);
 		if(edge->from == node){
 			result.insert(edge);
@@ -143,7 +141,7 @@ set<const GraphEdge*> Graph::GetOutwardEdgesFrom(nodekey_t node) const
 	// TODOL
 	// iterate of this->nodes, accumulate into a set<nodekey_t> and return it
 	set<nodekey_t> results = set<nodekey_t>();
-	for(size_t i; i < this->nodes.size(); i++){
+	for(size_t i = 0; i < this->nodes.size(); i++){
 		results.insert(this->nodes.at(i));
 	}
 	return results;
@@ -216,6 +214,8 @@ string Graph::EdgesToString() const
 
 }
 
+Graph::Graph() {
+}
 
 
 Graph::~Graph() {

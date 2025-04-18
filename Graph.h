@@ -4,10 +4,10 @@
 #include <iostream>
 #include <set>
 #include <climits>
+#include <vector>
 
 
 using namespace std;
-
 
 // nodes are essentially just their key value
 // These are special commands which define

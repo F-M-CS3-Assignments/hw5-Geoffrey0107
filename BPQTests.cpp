@@ -1,5 +1,3 @@
-
-
 #include "Graph.h"
 #include "BetterPriorityQueue.h"
 #include <cassert>
@@ -96,6 +94,7 @@ void UpdateTest() {
 	BPQNode negative;
 	assert(q.Update(negative) == false);
 	cout << "q after test 2: " << q.ToString() << endl;
+
 	assert(q.ToString() == soln1 || q.ToString() == soln2 || q.ToString() == soln3);
 	
 
@@ -110,6 +109,23 @@ void UpdateTest() {
 	assert(q.ToString() == soln1 || q.ToString() == soln2 || q.ToString() == soln3);	
 	
 	cout << "PASSED!" << endl;
+
+	// Test 4: update with same priority
+	BPQNode same;
+	same.gnode = 2;
+	same.pri = 1; 
+	assert(q.Update(same) == false);
+
+	// Test 5: multiple updates
+	BPQNode multi;
+	multi.gnode = 4;
+	multi.pri = 1;
+	assert(q.Update(multi) == true);  // should update from 3 to 1
+	multi.pri = 0;
+	assert(q.Update(multi) == true);  // should update from 1 to 0
+	multi.pri = 2;
+	assert(q.Update(multi) == false); // should NOT update, 2 > 0
+
 }
 
 int main(){
